@@ -42,7 +42,7 @@ files = os.listdir(f"downloads/replays/{link}")
 for x in files:
     _json = carball.decompile_replay(f"downloads/replays/{link}/" + x)
     with open(f'analysis/environment/{link}/{x.split(".")[0]}.json', "w", encoding='utf-8') as f:
-        json.dump(_json, f, ensure_ascii=False, indent=4)
+        json.dump(_json, f, ensure_ascii=False)
 
 exit(0)
 

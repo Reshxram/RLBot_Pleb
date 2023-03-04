@@ -115,6 +115,5 @@ ENV/
 /src/download_replays/token.txt
 /src/download_replays/analysis/environment
 /src/download_replays/analysis/inputs
-/src/download_replays/backup
 /src/download_replays/downloads/meta
 /src/download_replays/downloads/replays
