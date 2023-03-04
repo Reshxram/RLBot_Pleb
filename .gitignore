@@ -113,7 +113,8 @@ ENV/
 
 # Other
 /src/download_replays/token.txt
-/src/download_replays/analysis
+/src/download_replays/analysis/environment
+/src/download_replays/analysis/inputs
 /src/download_replays/backup
-/src/download_replays/downloads
-/src/download_replays/links
+/src/download_replays/downloads/meta
+/src/download_replays/downloads/replays
