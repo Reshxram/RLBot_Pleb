@@ -1,3 +1,5 @@
+import logging
+
 from carball.json_parser.game import Game
 from carball.analysis.analysis_manager import AnalysisManager
 from carball.controls.controls import ControlsCreator
@@ -8,6 +10,8 @@ import carball
 import pickle
 import bz2
 import sys
+
+from tqdm import tqdm
 
 
 def convert_replay_to_game_frames(inputName, JSONpath, save_json=True):
@@ -70,15 +74,13 @@ def creating_data(replay_location="", json_path=""):
     analysis_manager = AnalysisManager(game)
     analysis_manager.create_analysis()
 
-    json_object = analysis_manager.get_json_data()
-
     x = ControlsCreator()
     x.get_controls(game)
     frames = []
     total = 0
     duplicates = 0
     previous_frame = None
-    for col, row in analysis_manager.data_frame.iterrows():
+    for col, row in tqdm(analysis_manager.data_frame.iterrows(), total=sum(1 for dummy in analysis_manager.data_frame.iterrows()), file=sys.stdout, leave=True, position=0):
         frame = {}
         frame["GameState"] = {}
         frame["GameState"]["time"] = NaN_fixer(row["game"]["time"])
@@ -176,7 +178,7 @@ def getPlayerFrame(player, playerIndex, frameIndex, row):
     playerData["angular_velocity"] = [angular_vecloty_scaler(NaN_fixer(row[player.name]["ang_vel_x"])),
                                       angular_vecloty_scaler(NaN_fixer(row[player.name]["ang_vel_y"])),
                                       angular_vecloty_scaler(NaN_fixer(row[player.name]["ang_vel_z"]))]
-    playerData["boosting"] = row[player.name]["boost_active"]
+    playerData["boosting"] = NaN_fixer(row[player.name]["boost_active"])
     boost = NaN_fixer(row[player.name]["boost"])
     if boost > 0:
         boost = math.ceil((boost / 255) * 100)
@@ -224,8 +226,7 @@ def createDataFromReplay(filepath, outputPath, jsonPath, save_json=True):
 
 
 def NaN_fixer(value):
-    if value != value:
+    if value is None or math.isnan(value):
         return 0
-
     else:
-        return
+        return value
