@@ -120,3 +120,6 @@ ENV/
 /src/download_replays/analysis/2021
 /src/download_replays/analysis/2022
 /src/download_replays/analysis/2023
+/src/logs/
+/src/mmr_models
+/src/models
